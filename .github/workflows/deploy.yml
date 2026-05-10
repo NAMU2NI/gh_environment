@@ -4,15 +4,15 @@ on:
     branches:
       - master
       - dev
-env: 
+env:
   MONGODB_DB_NAME: gha-demo
+  MONGODB_CLUSTER_ADDRESS: cluster0.eqm8hcv.mongodb.net
+  MONGODB_USERNAME: naren39infy_db_user
+  PORT: 8080
 jobs:
   test:
-    env: 
-      MONGODB_CLUSTER_ADDRESS: cluster0.eqm8hcv.mongodb.net
-      MONGODB_USERNAME: naren39infy_db_user
-      MONGODB_PASSWORD: tcFV1RWqMZEqFRx1
-      PORT: 8080 
+    env:
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
     environment: testing
     runs-on: ubuntu-latest
     steps:
@@ -30,15 +30,15 @@ jobs:
       - name: Run tests
         run: npm test
       - name: Output information
-        run: | 
-          echo "MONGODB_USERNAME: $ {{ env.MONGODB_USERNAME }}"
+        run: |
+          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Output information
-        run: |        
-          echo "MONGODB_USERNAME: $ {{ env.MONGODB_USERNAME }}"
-          echo "MONGODB_NAME: $ {{ env.MONGODB_NAME }}"
+        run: |
+          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
+          echo "MONGODB_DB_NAME: ${{ env.MONGODB_DB_NAME }}"
 
 
